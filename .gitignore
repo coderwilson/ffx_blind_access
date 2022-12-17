@@ -1,0 +1,8 @@
+__pycache__/
+logs/
+*.py[cod]
+none
+config.yaml
+Save Backups/
+FFXCutsceneRemover.exe
+tas_saves/ffx_000

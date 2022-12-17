@@ -1,0 +1,28 @@
+from pynput import keyboard
+import xbox
+
+def start():
+    global listener
+    listener = keyboard.Listener(
+        on_press=on_press,
+        on_release=on_release)
+    listener.start()
+    
+def stop():
+    global listener
+    listener.stop()
+
+def on_press(key):
+    try:
+        print('alphanumeric key {0} pressed'.format(
+            key.char))
+    except AttributeError:
+        print('special key {0} pressed'.format(
+            key))
+
+def on_release(key):
+    print('{0} released'.format(
+        key))
+    if key == keyboard.Key.esc:
+        # Stop listener
+        return False

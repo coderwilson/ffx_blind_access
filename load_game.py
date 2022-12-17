@@ -4,14 +4,12 @@ import logging
 import os
 from pathlib import Path
 
-import airship_pathing
 import area.dream_zan
 import logs
 import memory.main
-import nemesis.arena_prep
 import pathing
 import reset
-import screen
+
 import vars
 import xbox
 from gamestate import game
@@ -43,6 +41,9 @@ def load_into_game(gamestate: str, step_counter: str):
     # If wrong maps are loaded in, try to reset.
     if memory.main.get_map() not in [23, 348, 349]:
         reset.reset_to_main_menu()
+    if gamestate == "last":
+        load_save_num(0)
+        return
     area.dream_zan.new_game(gamestate=gamestate)
 
     # Now to get details for the load/save files
@@ -187,7 +188,7 @@ def load_into_game_old(gamestate: str, step_counter: str):
     if gamestate == "Macalania" and step_counter == 4:  # Right before Jyscal skip
         load_save_num(190)
         load_mac_temple()
-        import menu
+        
 
         menu.equip_weapon(character=0, special="brotherhood")
         menu.mac_temple()
@@ -237,7 +238,7 @@ def load_into_game_old(gamestate: str, step_counter: str):
         FFXC.set_movement(0, 1)
         memory.main.wait_frames(60)
         FFXC.set_neutral()
-        import menu
+        
 
         menu.prep_calm_lands()
     if gamestate == "Zanarkand" and step_counter == 1:  # Intro scene revisited
@@ -851,7 +852,7 @@ def load_mac_temple_2():
 
 
 def load_wendigo():
-    import battle.boss
+    
     import battle.main
 
     battle.boss.wendigo()
@@ -869,8 +870,6 @@ def load_rescue():
     memory.main.wait_frames(30 * 1)
     memory.main.await_control()
     memory.main.update_formation(Tidus, Rikku, Kimahri)
-
-    airship_pathing.air_ship_path(1)  # The run from cockpit to the deck
 
 
 def load_bahamut():

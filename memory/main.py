@@ -150,7 +150,7 @@ def start():
 
     global base_value
     try:
-        import root_mem
+        from memory import root_mem
 
         logger.info("Process Modules:")
         base_value = root_mem.list_process_modules(process.pid)
@@ -235,6 +235,8 @@ def battle_value():
 def battle_active() -> bool:
     global base_value
     if game_over():
+        return False
+    elif get_story_progress() <= 8:
         return False
     key = base_value + 0x00D2A8E0
     value = process.read_bytes(key, 1)

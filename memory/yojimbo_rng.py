@@ -2,7 +2,7 @@ import logging
 import math
 
 import memory.main
-import screen
+
 from memory.main import rng_array_from_index
 
 logger = logging.getLogger(__name__)
