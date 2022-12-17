@@ -91,8 +91,8 @@ def perform_avina():
         try:
             # Start of the game, start of Dream Zanarkand section
             if game.state == "intro":
-                #say("Hello. I am a virtual intelligence named Aveena.")
-                #say("I will be your guide to playing Final Fantasy 10.")
+                say("Hello. I am a virtual intelligence named Aveena.")
+                say("I will be your guide to playing Final Fantasy 10.")
                 game.state = "config"
             
             if game.state == "config":
@@ -109,7 +109,7 @@ def perform_avina():
                     #launch_game()
                     # Launch Game not yet working
                     time.sleep(5)
-                say("I am connected to the game. Ready.")
+                say("I am now connected to the game.")
                 game.state = "check_tutorial"
             
             if game.state == "check_tutorial":
