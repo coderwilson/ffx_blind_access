@@ -4,6 +4,8 @@ import random
 import sys
 from avina_speech.tts import say
 from avina_event import trigger
+from avina_event.map_change import map_description
+from avina_event import special
 import time
 from area import dream_zan
 from keyboard import controls
@@ -139,36 +141,39 @@ def perform_avina():
             
             if game.state == "story":
                 controls.stop()
-                say("Cutscene starting.")
-                while not memory.main.user_control() or memory.main.turn_ready():
+                say("story")
+                while not memory.main.user_control() or memory.main.battle_active():
                     pass
                 controls.start()
-                game.state = "overworld"
+                
 
             if game.state == "battle":
                 say("Battle is now active.")
+                controls.stop()
+                battle_controls.start()
                 while not avina_event.battle.battle_complete():
-                    controls.stop()
-                    battle_controls.start()
+                    pass
                 battle_controls.stop()
                 controls.start()
-                game.state = "overworld"
 
             if game.state == "overworld":
-                say("Explore")
                 next_event = trigger.new_event()
                 while next_event == "overworld":
-                    pass
-                game.state = next_event
+                    next_event = trigger.new_event()
             
             if game.state == "map":
-                say("New map.")
+                map_description()
                 game.state = "overworld"
             
-            if game.state == "wait":
-                while next_event == 'wait':
-                    pass
-                game.state = "overworld"
+            if game.state == "special_name_aeon":
+                logger.debug("Naming aeon.")
+                controls.stop()
+                memory.main.wait_frames(15)
+                special.name_aeon()
+                controls.start()
+            
+            # Determine the next state of the game.
+            game.state = trigger.new_event()
 
             # End of game section
             if game.state == "End":

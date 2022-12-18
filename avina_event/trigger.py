@@ -14,6 +14,11 @@ def write_last(values):
 def new_event() -> str:
     f = open("avina_event\\last_state.json")
     last = json.load(f)
+    
+    # Special events first.
+    if memory.main.name_aeon_ready():
+        return "special_name_aeon"
+    
     # Story event check
     if memory.main.get_story_progress() != last["story_progress"]:
         last["story_progress"] = memory.main.get_story_progress()
@@ -22,9 +27,9 @@ def new_event() -> str:
         return "story"
     
     # Battle check
-    if memory.main.battle_active() and last["battle"] == "False":
+    if memory.main.battle_active() and last["battle"] == False:
         print(last["battle"])
-        last["battle"] = str(memory.main.battle_active() != 0)
+        last["battle"] = memory.main.battle_active() != 0
         write_last(last)
         logger.debug("Battle is now active")
         return "battle"
