@@ -83,6 +83,7 @@ def _approach_actor(actor_index: int = 999, talk: bool = True):
         set_movement(target_coords)
         if talk and distance(actor_index) < 15:
             xbox.tap_b()
+            memory.main.wait_frames(6)
     return True
 
 

@@ -236,13 +236,17 @@ def battle_active() -> bool:
     global base_value
     if game_over():
         return False
-    elif get_story_progress() <= 8:
-        return False
     key = base_value + 0x00D2A8E0
     value = process.read_bytes(key, 1)
     if value == 0:
         return False
     return True
+
+
+def set_battle():
+    global base_value
+    key = base_value + 0x00D2A8E0
+    process.write_bytes(key, 1, 2)
 
 
 def battle_wrap_up_active():

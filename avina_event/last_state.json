@@ -1,9 +1,9 @@
 {
-    "story_progress": 3,
+    "story_progress": 5,
     "diag_progress": 0,
-    "map": 368,
-    "battle": "False",
-    "summary": "False",
-    "menu": "False",
-    "control": "False"
+    "map": 376,
+    "battle": true,
+    "summary": false,
+    "menu": false,
+    "control": false
 }
