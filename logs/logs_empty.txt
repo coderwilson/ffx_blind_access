@@ -1,0 +1,3 @@
+This file solely exists to force your local copy of this repo to create the logs folder.
+The TAS will create new log files within this folder on your local machine.
+Once folder is created, this file serves no further purpose and can be deleted.

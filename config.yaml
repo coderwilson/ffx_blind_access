@@ -1,0 +1,49 @@
+# Gamestate and step counter determine starting point of the run.
+# "none" and 1 to start from the New Game command.
+# To use a load-game state, see json_ai_files/save_load_details.json for valid states.
+gamestate               : "none" # valid values listed above
+step_counter            : 1      # valid step_counter values are dependent on gamestate
+
+vars:
+  # Game modes:
+  # "test" will speed up battles and cheat at Blitzball
+  # "normal" or "speed" will run regular
+  # "story" Same as normal, will play cutscenes and dialog
+  # "swag" Same as normal, some swag elements added in.
+  # "blitz_only" will run through Blitz, record results, and reset. Same as normal mode.
+  game_mode               : "speed"
+  # True for Nemesis run, False for regular Any% (with or without CSR)
+  nemesis_value           : True
+
+  # RNG choice
+  # Set game_patched to True if you have patched your .exe
+  # with the 'rng_mod_patch.py' in tools folder. Otherwise set to False
+  game_patched            : True
+  # If above is True, select the rng_mode you prefer below. Otherwise this does nothing.
+  # rng_mode = "set" will run the desired set seed.
+  # rng_mode = "preferred" will run a seed out of the preferred list.
+  # rng_mode = "random" will run any of the 256 possible seeds, chosen randomly.
+  rng_mode                : "set"
+  # Select the seed you desire for "set" mode.
+  rng_seed_num            : 31
+
+
+  # Cosmetics / Other
+  original_soundtrack     : False  # Sets to original or arranged soundtrack.
+  force_loop              : False  # After game is finished, start again on next seed.
+  generate_saves          : False  # Whether or not to generate saves for this run.
+  
+  # System
+  # ---- The following are valid options, depending on your file path.
+  # ---- "C://users//user_name//etc"
+  # ---- "" (blank means to use the default path)
+  save_path               : ""     # Overwrite the default Documents folder location.
+  artificial_pauses       : False  # If you have a bad computer or are noticing dropped inputs, set this to True. Otherwise, leave as False.
+
+logging:
+  show_images             : False  # Show ASCII images
+  terminal_width          : 120    # Number of columns in terminal, used for show_images
+  color_log               : False  # Colors the console output. May not work on some systems
+  verbosity               : DEBUG  # Verbosity of log messages in the console.
+                                   # These are the valid levels: DEBUG, MANIP, INFO, WARNING, ERROR, CRITICAL
+                                   # Full log will always be available in a file.
