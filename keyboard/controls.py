@@ -4,15 +4,17 @@ import xbox
 from memory.main import get_coords
 import pathing
 FFXC = xbox.controller_handle()
-from avina_speech.tts import say
-from avina_event.special import closest_actor
 import logging
 logger = logging.getLogger(__name__)
+import vars
+msg_queue = vars.msg_handle()
+
 
 global up
 global down
 global left
 global right
+global pass_message
 
 def start():
     global listener
@@ -100,34 +102,23 @@ def update_xbox(key, state:str="press"):
                 else:
                     FFXC.set_value("btn_y", 0)
             if key.char == 'a' and state == "press":
-                index, _ = closest_actor()
-                logger.debug(f"Approaching actor {index}")
-                if index != 99:
-                    FFXC.set_neutral()
-                    reset_l_stick()
-                    #say("Approaching actor") # Line is not working (soft lock)
-                    pathing.approach_actor_by_index(actor_index=index)
-                #else:
-                    #say("Nothing to approach.") # Line is not working (soft lock)
+                if state == "press":
+                    logger.debug("Adding message to queue")
+                    msg_queue.add_msg("approach")
             if key.char == 'o':
                 if state == "press":
-                    FFXC.set_neutral()
-                    reset_l_stick()
-                    coords = get_coords()
-                    logger.debug(f"Reporting coordinates: {coords}")
-                    speak = "x, " + str(int(coords[0])) + ", y, " + str(int(coords[1]))
-                    say(speak)
-                    logger.debug("Report complete.")
+                    msg_queue.add_msg("coords")
             if key.char == 'r' and state == "press":
                 FFXC.set_neutral()
                 reset_l_stick()
-                say("Not yet implemented.")
+                msg_queue.add_msg("Not yet implemented")
             if key.char == 'e' and state == "press":
                 FFXC.set_neutral()
                 reset_l_stick()
-                say("Not yet implemented.")
+                msg_queue.add_msg("Not yet implemented")
         except: #non-alpha-numeric value.
             pass
+    pass_message = "none"
 
 
 def on_press(key):

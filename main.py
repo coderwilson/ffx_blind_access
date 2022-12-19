@@ -2,7 +2,7 @@
 import logging
 import random
 import sys
-from avina_speech.tts import say
+from avina_speech.tts import speak
 from avina_event import trigger
 from avina_event.map_change import map_description
 from avina_event import special
@@ -10,6 +10,7 @@ import time
 from area import dream_zan
 from keyboard import controls
 from keyboard import battle_controls
+from avina_event.message import handle_message
 
 # This needs to be before the other imports in case they decide to log things when imported
 import log_init
@@ -28,16 +29,17 @@ import load_game
 import pathing
 import save_sphere
 import vars
+msg_queue = vars.msg_handle()
 import xbox
 from gamestate import game
 from image_to_text import maybe_show_image
-
 
 FFXC = xbox.controller_handle()
 
 
 def configuration_setup():
     game_vars = vars.vars_handle()
+    msg_queue = vars.msg_handle()
     # Open the config file and parse game configuration
     # This may overwrite configuration above
     config_data = config.open_config()
@@ -93,8 +95,8 @@ def perform_avina():
         try:
             # Start of the game, start of Dream Zanarkand section
             if game.state == "intro":
-                say("Hello. I am a virtual intelligence named Aveena.")
-                say("I will be your guide to playing Final Fantasy 10.")
+                #speak("Hello. I am a virtual intelligence named Aveena.")
+                #speak("I will be your guide to playing Final Fantasy 10.")
                 game.state = "config"
             
             if game.state == "config":
@@ -106,49 +108,46 @@ def perform_avina():
 
                 # Initialize memory access
                 while not memory_setup():
-                    say("Something is wrong, the game is not running.")
-                    #say("I'll try to fix this. One moment.")
+                    speak("Something is wrong, the game is not running.")
+                    #speak("I'll try to fix this. One moment.")
                     #launch_game()
                     # Launch Game not yet working
                     time.sleep(5)
-                say("I am now connected to the game.")
+                speak("I am now connected to the game.")
                 game.state = "check_tutorial"
             
             if game.state == "check_tutorial":
-                #say("Would you like a quick tutorial on how I work?")
-                say("Press Y for tutorial, or any key to proceed, then press enter.")
+                #speak("Would you like a quick tutorial on how I work?")
+                speak("Press Y for tutorial, or any key to proceed, then press enter.")
                 if input("Awaiting decision ").lower() == 'y':
                     from avina_speech import guide
                     guide.tutorial()
                 game.state = "new_game"
             
             if game.state == "new_game":
-                say("Would you like to start a new game?")
-                say("Press N for new or L for load, then press enter.")
+                speak("Would you like to start a new game?")
+                speak("Press N for new or L for load, then press enter.")
                 response = input("Awaiting decision ").lower()
                 if response == 'n':
-                    say("Starting new game.")
+                    speak("Starting new game.")
                     dream_zan.new_game(gamestate='none')
                     dream_zan.new_game_2()
-                    say("New game starting now.")
+                    speak("New game starting now.")
                     game.state = "story"
                 elif response == 'l':
-                    say("Loading the most recent save.")
+                    speak("Loading the most recent save.")
                     dream_zan.new_game(gamestate='load')
                     load_game.load_into_game(gamestate="last", step_counter="none")
                     game.state = "overworld"
                 controls.start()
             
             if game.state == "story":
-                controls.stop()
-                say("story")
-                while not memory.main.user_control() or memory.main.battle_active():
-                    pass
-                controls.start()
+                pass
+                #speak("story")
                 
 
             if game.state == "battle":
-                say("Battle is now active.")
+                speak("Battle is now active.")
                 controls.stop()
                 battle_controls.start()
                 while not avina_event.battle.battle_complete():
@@ -163,26 +162,31 @@ def perform_avina():
             
             if game.state == "map":
                 map_description()
-                game.state = "overworld"
             
-            if game.state == "special_name_aeon":
-                logger.debug("Naming aeon.")
-                controls.stop()
-                memory.main.wait_frames(15)
-                special.name_aeon()
-                controls.start()
+            if "special" in game.state:
+                if game.state == "special_name_aeon":
+                    logger.debug("Naming aeon.")
+                    controls.stop()
+                    memory.main.wait_frames(15)
+                    special.name_aeon()
+                    controls.start()
+                elif game.state == "special_message":
+                    handle_message()
+            
+            if game.state == "wait":
+                pass
             
             # Determine the next state of the game.
             game.state = trigger.new_event()
 
             # End of game section
             if game.state == "End":
-                say("Thank you for playing Final Fantasy 10 with me.")
-                say("Good bye.")
+                speak("Thank you for playing Final Fantasy 10 with me.")
+                speak("Good bye.")
 
         except KeyboardInterrupt as e:
             logger.info("Keyboard Interrupt - Exiting.")
-            say("Keyboard Interrupt - Exiting.")
+            speak("Keyboard Interrupt - Exiting.")
             logging.exception(e)
             sys.exit(0)
 
