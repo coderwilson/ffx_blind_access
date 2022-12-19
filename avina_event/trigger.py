@@ -2,8 +2,10 @@ import os
 import logging
 import json
 import memory.main
+import vars
 from avina_event.story import story_trigger
 logger = logging.getLogger(__name__)
+msg_queue = vars.msg_handle()
 
 def write_last(values):
     writing = dict(values)
@@ -41,4 +43,10 @@ def new_event() -> str:
         logger.debug(f"Map change {last['map']}")
         return "map"
     
-    return "overworld"
+    # Messages for speaking
+    if msg_queue.is_msg():
+        return "special_message"
+    
+    if memory.main.user_control():
+        return "overworld"
+    return "wait"

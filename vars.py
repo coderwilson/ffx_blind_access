@@ -378,7 +378,6 @@ class AllVars:
     def get_battle_speedup(self):
         return self.battle_speedup
 
-
 def init_vars():
     AllVars()
 
@@ -387,4 +386,23 @@ def vars_handle():
     return main_vars
 
 
+class messages:
+    def __init__(self):
+        self.msg_queue = []
+    
+    def add_msg(self, value):
+        print(f"Adding message to queue: {value}")
+        self.msg_queue.append(value)
+        print(f"Messages now in queue: {self.is_msg()}")
+    
+    def is_msg(self):
+        return len(self.msg_queue)
+    
+    def get_msg(self):
+        return self.msg_queue.pop(0)
+
+def msg_handle():
+    return tts_messages
+
 main_vars = AllVars()
+tts_messages = messages()

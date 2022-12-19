@@ -1,3 +1,4 @@
+import datetime
 import logging
 from math import copysign, sqrt
 
@@ -78,12 +79,23 @@ def _approach_actor(actor_index: int = 999, talk: bool = True):
 
     actor_coords = memory.main.get_actor_coords(actor_index=actor_index)
     target_coords = [actor_coords[0], actor_coords[1]]
+    start = datetime.datetime.now()
 
-    while memory.main.user_control():
+    while (
+        memory.main.user_control() and
+        not memory.main.menu_open() and
+        not memory.main.name_aeon_ready()
+    ):
+        timestamp = datetime.datetime.now()
+        total = timestamp - start
+        if total.total_seconds() > 2: # Two-second time-out
+            FFXC.set_neutral()
+            return False
         set_movement(target_coords)
         if talk and distance(actor_index) < 15:
             xbox.tap_b()
-            memory.main.wait_frames(6)
+    FFXC.set_neutral()
+    memory.main.wait_frames(6)
     return True
 
 

@@ -3,7 +3,7 @@ engine = pyttsx3.init()
 import logging
 logger = logging.getLogger(__name__)
 
-def say(value:str):
+def speak(value:str):
     message(value=value)
 
 def message(value:str, *, gender:str='f'):
@@ -14,6 +14,6 @@ def message(value:str, *, gender:str='f'):
         engine.setProperty('voice', voices[0].id)
     logger.debug(value)
     engine.say(value)
-    logger.debug("Voice Line loaded")
     engine.runAndWait()
-    logger.debug("Voice Line complete")
+    #if engine.isBusy():
+    #    engine.stop()
