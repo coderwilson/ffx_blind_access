@@ -2,6 +2,7 @@ from pynput import keyboard
 from pynput.keyboard import Key, Controller
 import xbox
 from memory.main import get_coords
+from memory.main import user_control
 import pathing
 FFXC = xbox.controller_handle()
 import logging
@@ -108,16 +109,18 @@ def update_xbox(key, state:str="press"):
             if key.char == 'o':
                 if state == "press":
                     msg_queue.add_msg("coords")
-            if key.char == 'r' and state == "press":
-                FFXC.set_neutral()
-                reset_l_stick()
-                msg_queue.add_msg("Not yet implemented")
-            if key.char == 'e' and state == "press":
-                FFXC.set_neutral()
-                reset_l_stick()
-                msg_queue.add_msg("Not yet implemented")
-        except: #non-alpha-numeric value.
-            pass
+            if key.char == 'r':
+                logger.debug(f"set recall command {user_control()}")
+                if state == "press":
+                    if user_control():
+                        msg_queue.add_msg("set_recall")
+            if key.char == 'e':
+                logger.debug(f"trigger recall command {user_control()}")
+                if state == "press":
+                    if user_control():
+                        msg_queue.add_msg("return_recall")
+        except Exception as e: #non-alpha-numeric value.
+            logger.warning(f"Error: {e}")
     pass_message = "none"
 
 

@@ -118,15 +118,15 @@ def perform_avina():
             
             if game.state == "check_tutorial":
                 #speak("Would you like a quick tutorial on how I work?")
-                speak("Press Y for tutorial, or any key to proceed, then press enter.")
+                #speak("Press Y for tutorial, or any key to proceed, then press enter.")
                 if input("Awaiting decision ").lower() == 'y':
                     from avina_speech import guide
                     guide.tutorial()
                 game.state = "new_game"
             
             if game.state == "new_game":
-                speak("Would you like to start a new game?")
-                speak("Press N for new or L for load, then press enter.")
+                #speak("Would you like to start a new game?")
+                #speak("Press N for new or L for load, then press enter.")
                 response = input("Awaiting decision ").lower()
                 if response == 'n':
                     speak("Starting new game.")
@@ -171,6 +171,7 @@ def perform_avina():
                     special.name_aeon()
                     controls.start()
                 elif game.state == "special_message":
+                    # from avina_event.message
                     handle_message()
             
             if game.state == "wait":
