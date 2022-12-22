@@ -11,6 +11,7 @@ from area import dream_zan
 from keyboard import controls
 from keyboard import battle_controls
 from avina_event.message import handle_message
+import reset
 
 # This needs to be before the other imports in case they decide to log things when imported
 import log_init
@@ -51,8 +52,12 @@ def configuration_setup():
 def memory_setup():
     # Initiate memory reading, after we know the game is open.
     try:
+        logger.debug("Connecting")
         memory.main.start()
-
+        logger.debug("Connected to memory")
+    except:
+        return False
+    try:
         # Main
         if memory.main.get_map() not in [23, 348, 349]:
             reset.reset_to_main_menu()
@@ -60,7 +65,9 @@ def memory_setup():
         logger.info("Game start screen")
         return True
     except:
-        return False
+        reset.reset_to_main_menu()
+        logger.info("Game start screen")
+        return True
 
 def load_game_state():
     # loading from a save file

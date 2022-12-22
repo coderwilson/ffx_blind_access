@@ -1954,7 +1954,7 @@ def get_actor_id(actor_num):
     return process.read_bytes(base_pointer_address + offset_x, 2)
 
 
-def get_actor_coords(actor_index):
+def get_actor_coords(actor_index, raw=False):
     global process
     global base_value
     ret_val = [0, 0, 0]
@@ -1965,12 +1965,20 @@ def get_actor_coords(actor_index):
         offset_y = (0x880 * actor_index) + 0x14
         offset_z = (0x880 * actor_index) + 0x10
 
-        key_x = base_pointer_address + offset_x
-        ret_val[0] = float_from_integer(process.read(key_x))
-        key_y = base_pointer_address + offset_y
-        ret_val[1] = float_from_integer(process.read(key_y))
-        key_z = base_pointer_address + offset_z
-        ret_val[2] = float_from_integer(process.read(key_z))
+        if raw:
+            key_x = base_pointer_address + offset_x
+            ret_val[0] = process.read(key_x)
+            key_y = base_pointer_address + offset_y
+            ret_val[1] = process.read(key_y)
+            key_z = base_pointer_address + offset_z
+            ret_val[2] = process.read(key_z)
+        else:
+            key_x = base_pointer_address + offset_x
+            ret_val[0] = float_from_integer(process.read(key_x))
+            key_y = base_pointer_address + offset_y
+            ret_val[1] = float_from_integer(process.read(key_y))
+            key_z = base_pointer_address + offset_z
+            ret_val[2] = float_from_integer(process.read(key_z))
 
         return ret_val
     except Exception:
@@ -1985,8 +1993,7 @@ def set_actor_coords(actor_index:int, target_coords):
         ptr = process.read(base_pointer)
         key_x = ptr + (0x880 * actor_index) + 0x0C
         key_y = ptr + (0x880 * actor_index) + 0x14
-        key_z = ptr + (0x880 * actor_index) + 0x10
-
+        key_z = ptr + (0x880 * actor_index) + 0x16c
         process.write(key_x, target_coords[0])
         process.write(key_y, target_coords[1])
         process.write(key_z, target_coords[2])

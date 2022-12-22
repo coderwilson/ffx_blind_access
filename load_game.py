@@ -42,7 +42,7 @@ def load_into_game(gamestate: str, step_counter: str):
     if memory.main.get_map() not in [23, 348, 349]:
         reset.reset_to_main_menu()
     if gamestate == "last":
-        load_save_num(0)
+        load_save_num(31)
         return
     area.dream_zan.new_game(gamestate=gamestate)
 
