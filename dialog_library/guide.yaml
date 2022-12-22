@@ -1,0 +1,52 @@
+from avina_speech.tts import speak
+
+tutorial: >
+    Let's go over the buttons real quick.
+    First, make sure to have my program focused.
+    I'll take care of translating your button presses into the game
+    so that when you press Up you will always go North, just as one example.
+    C is your button for confirm, so any time you want to select a menu item or
+    similar actions. X is your 'go back' button.
+    V is your button to open the menu.
+    Z is used in some rare cases as well.
+    B is your Start button, but rarely used.
+    S and D are like bumper buttons on a controller, rarely used.
+    Those are the main buttons just like in the game, but I've got some
+    extra functionality too. For example.
+    If you are near to an actor, you can press A and I will approach and speak with them.
+    I'll let you know when you're near someone or something.
+    This will also work on objects like chests or save spheres.
+    If you want to know where you are on the map, you can press O for Coordinates.
+    In addition, I've got a recall system.
+    While in control, press R for recall to set a recall point.
+    To go back, press E for recall to go back to your recall point.
+    During the game, you can press H for help.
+    Oh, sorry, it seems like my functionality is still a bit limited.
+    After all, I'm only a virtual intelligence, not truly artificial.
+    I can only do the things my programmer has set me up to do.
+    Don't worry, my programmer is still working on improving me.
+
+help_menu: >
+    Hi player, how can I help?
+    Would you like to go over the controls again? Press C for controls.
+    The controls in battle are different, so press B and I'll go over those controls.
+    How is the game volume? Press plus or minus to change the game's volume.
+    How about my own volume? Use the U and D keys to turn my voice up or down.
+    When you're ready, press R to return to the game.
+    You can press H to repeat these instructions.
+
+battle_guide: >
+    Let's go over the battle buttons.
+    Press C to confirm the menu item currently selected.
+    Press X to go back to the previous menu.
+    The up and down keys will select something else on the menu.
+    From the primary menu (with the attack command), you can press the right
+    arrow key for the escape command.
+    Also from the primary menu, the left arrow key will take you to overdrive
+    when it is full for the current character.
+    P will tell you who is in your active party.
+    S will give you current statuses for your party.
+    E will give you the enemies and their statuses.
+    T will give you the upcoming turn order.
+    
+    

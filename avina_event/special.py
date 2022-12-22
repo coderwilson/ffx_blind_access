@@ -8,6 +8,10 @@ logger = logging.getLogger(__name__)
 from avina_speech.tts import speak
 import json
 import os
+import struct
+import ctypes
+import vars
+msg_queue = vars.msg_handle()
 
 
 def approach_nearest_actor():
@@ -53,18 +57,18 @@ def set_recall():
     f = open("avina_event\\recall.json")
     lib = json.load(f)
     map_val = str(memory.main.get_map())
-    cur_pos = memory.main.get_actor_coords(actor_index=0)
+    cur_pos = memory.main.get_actor_coords(actor_index=0, raw=True)
     logger.debug(f"Setting recall point: {map_val}")
     if map_val in lib.keys():
-        lib[map_val]["x"] = int(cur_pos[0])
-        lib[map_val]["y"] = int(cur_pos[1])
-        lib[map_val]["z"] = int(cur_pos[2])
+        lib[map_val]["x"] = cur_pos[0]
+        lib[map_val]["y"] = cur_pos[1]
+        lib[map_val]["z"] = cur_pos[2]
     else:
         new_val = {
             map_val: {
-                "x": int(cur_pos[0]),
-                "y": int(cur_pos[1]),
-                "z": int(cur_pos[2])
+                "x": cur_pos[0],
+                "y": cur_pos[1],
+                "z": cur_pos[2]
             }
         }
         lib.update(new_val)
@@ -72,6 +76,7 @@ def set_recall():
     filepath = os.path.join("avina_event", "recall.json")
     with open(filepath, "w") as fp:
         json.dump(lib, fp, indent=4)
+    msg_queue.add_msg("set")
 
 
 def return_to_recall():
@@ -85,8 +90,13 @@ def return_to_recall():
         logger.warning("Invalid recall point. Please re-set recall spot.")
     else:
         logger.debug(f"Recalling. {memory.main.get_map()}")
-        ret_point = [int(lib[map_val]["x"]), int(lib[map_val]["y"]), int(lib[map_val]["z"])]
+        ret_point = [lib[map_val]["x"], lib[map_val]["y"], lib[map_val]["z"]]
         logger.debug(f"Index: {index} | {ret_point}")
+        #ret_point[0] = struct.unpack("!I", struct.pack("!f", ret_point[0]))[0]
+        #ret_point[1] = struct.unpack("!I", struct.pack("!f", ret_point[1]))[0]
+        #ret_point[2] = struct.unpack("!I", struct.pack("!f", ret_point[2]))[0]
+        logger.debug(f"Packed: {index} | {ret_point}")
         memory.main.set_actor_coords(actor_index=index, target_coords=ret_point)
         memory.main.wait_frames(2)
         logger.debug(f"Recall complete. {memory.main.get_actor_coords(actor_index=index)}")
+    msg_queue.add_msg("return")

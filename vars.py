@@ -128,7 +128,7 @@ class AllVars:
         # If your computer has bad specs, this will input commands to the controller
         # at a lower rate of speed. Very rarely used.
         self.artificial_pauses = config_vars.get("artificial_pauses", False)
-
+    
     def create_saves(self):
         return self.generate_saves
 
