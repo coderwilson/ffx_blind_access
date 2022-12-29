@@ -3,24 +3,10 @@ import logging
 from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
-import battle.utils
-import logs
 import memory.main
 import vars
 import xbox
-from memory.main import s32
-from players import (
-    Auron,
-    Bahamut,
-    CurrentPlayer,
-    Kimahri,
-    Lulu,
-    Rikku,
-    Tidus,
-    Valefor,
-    Wakka,
-    Yuna,
-)
+from players import Auron, CurrentPlayer, Kimahri, Lulu, Rikku, Tidus, Wakka, Yuna
 from players.rikku import omnis_items
 
 game_vars = vars.vars_handle()
@@ -203,7 +189,6 @@ def _print_confused_state():
     logger.debug(f"Lulu confusion: {memory.main.state_confused(5)}")
 
 
-
 def escape_with_xp():
     rikku_item = False
     if memory.main.get_item_slot(39) > 200:
@@ -355,6 +340,7 @@ def use_item(slot: int, direction="none", target=255, rikku_flee=False):
         elif direction == "down":
             xbox.tap_down()
         tap_targeting()
+
 
 def cheer():
     logger.debug("Cheer command")
@@ -952,7 +938,7 @@ def wrap_up():
         while memory.main.battle_value() != 0:
             if memory.main.turn_ready():
                 return False
-        
+
     logger.debug("Wrapping up battle.")
     while not memory.main.battle_wrap_up_active():
         if memory.main.user_control():
@@ -963,8 +949,8 @@ def wrap_up():
             return False
     memory.main.wait_frames(1)
     while memory.main.battle_wrap_up_active():
-        FFXC.set_value('btn_b', 1)
-    FFXC.set_value('btn_b', 0)
+        FFXC.set_value("btn_b", 1)
+    FFXC.set_value("btn_b", 0)
     logger.debug("Wrap up complete.")
     memory.main.wait_frames(1)
     return True
@@ -1196,4 +1182,3 @@ def check_gems():
         gems += memory.main.get_item_count_slot(gem_slot)
     logger.debug(f"Total gems: {gems}")
     return gems
-

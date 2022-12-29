@@ -2,9 +2,7 @@ import logging
 
 import battle.main
 import memory.main
-
 import pathing
-
 import vars
 import xbox
 from paths import ThunderPlainsAgency, ThunderPlainsNorth, ThunderPlainsSouth

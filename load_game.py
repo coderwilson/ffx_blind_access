@@ -9,7 +9,6 @@ import logs
 import memory.main
 import pathing
 import reset
-
 import vars
 import xbox
 from gamestate import game
@@ -188,7 +187,6 @@ def load_into_game_old(gamestate: str, step_counter: str):
     if gamestate == "Macalania" and step_counter == 4:  # Right before Jyscal skip
         load_save_num(190)
         load_mac_temple()
-        
 
         menu.equip_weapon(character=0, special="brotherhood")
         menu.mac_temple()
@@ -238,7 +236,6 @@ def load_into_game_old(gamestate: str, step_counter: str):
         FFXC.set_movement(0, 1)
         memory.main.wait_frames(60)
         FFXC.set_neutral()
-        
 
         menu.prep_calm_lands()
     if gamestate == "Zanarkand" and step_counter == 1:  # Intro scene revisited
@@ -560,8 +557,9 @@ def kilika_rng_manip():
 
     # Basically, hunt until we don't find a good battle in 'advances'
     advances = 5
-    import area.kilika
     import rng_track
+
+    import area.kilika
 
     next_two = rng_track.coming_battles(
         area="kilika_woods", battle_count=advances, extra_advances=1
@@ -852,7 +850,7 @@ def load_mac_temple_2():
 
 
 def load_wendigo():
-    
+
     import battle.main
 
     battle.boss.wendigo()

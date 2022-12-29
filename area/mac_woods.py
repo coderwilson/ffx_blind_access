@@ -1,13 +1,10 @@
 import logging
 from typing import List
 
-
 import battle.main
 import memory.main
-
 import pathing
 import save_sphere
-
 import vars
 import xbox
 from paths import MacalaniaLake, MacalaniaWoods

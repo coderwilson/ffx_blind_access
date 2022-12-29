@@ -2,7 +2,6 @@ import logging
 
 import battle.main
 import memory.main
-
 import xbox
 
 FFXC = xbox.controller_handle()

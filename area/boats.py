@@ -1,9 +1,7 @@
 import logging
 
-
 import battle.main
 import memory.main
-
 import pathing
 import vars
 import xbox

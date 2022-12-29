@@ -1,16 +1,17 @@
 import memory.main
-from memory.main import wait_frames
-import xbox
 import pathing
+import xbox
+
 FFXC = xbox.controller_handle()
 import logging
+
 logger = logging.getLogger(__name__)
-from avina_speech.tts import speak
 import json
 import os
-import struct
-import ctypes
+
 import vars
+from avina_speech.tts import speak
+
 msg_queue = vars.msg_handle()
 
 
@@ -23,14 +24,15 @@ def approach_nearest_actor():
         if not pathing.approach_actor_by_index(actor_index=index):
             speak("That character has nothing to say.")
 
+
 def closest_actor():
     # Returns the index of the closest actor. Excludes controlled player.
     distance = 99
     index = 99
-    
+
     for i in range(memory.main.get_actor_array_size()):
         prox = pathing.distance(i)
-        #print(f"Testing actor {i}: {prox}")
+        # print(f"Testing actor {i}: {prox}")
         if prox == 0 or prox > 90:
             pass
         elif index == 99:
@@ -41,8 +43,9 @@ def closest_actor():
             distance = prox
         else:
             pass
-    #print(f"Closest actor is {index} - distance {distance}")
+    # print(f"Closest actor is {index} - distance {distance}")
     return (index, distance)
+
 
 def name_aeon():
     FFXC.set_neutral()
@@ -52,6 +55,7 @@ def name_aeon():
     xbox.tap_up()
     xbox.tap_b()
     memory.main.wait_frames(15)
+
 
 def set_recall():
     f = open("avina_event\\recall.json")
@@ -64,13 +68,7 @@ def set_recall():
         lib[map_val]["y"] = cur_pos[1]
         lib[map_val]["z"] = cur_pos[2]
     else:
-        new_val = {
-            map_val: {
-                "x": cur_pos[0],
-                "y": cur_pos[1],
-                "z": cur_pos[2]
-            }
-        }
+        new_val = {map_val: {"x": cur_pos[0], "y": cur_pos[1], "z": cur_pos[2]}}
         lib.update(new_val)
 
     filepath = os.path.join("avina_event", "recall.json")
@@ -92,11 +90,13 @@ def return_to_recall():
         logger.debug(f"Recalling. {memory.main.get_map()}")
         ret_point = [lib[map_val]["x"], lib[map_val]["y"], lib[map_val]["z"]]
         logger.debug(f"Index: {index} | {ret_point}")
-        #ret_point[0] = struct.unpack("!I", struct.pack("!f", ret_point[0]))[0]
-        #ret_point[1] = struct.unpack("!I", struct.pack("!f", ret_point[1]))[0]
-        #ret_point[2] = struct.unpack("!I", struct.pack("!f", ret_point[2]))[0]
+        # ret_point[0] = struct.unpack("!I", struct.pack("!f", ret_point[0]))[0]
+        # ret_point[1] = struct.unpack("!I", struct.pack("!f", ret_point[1]))[0]
+        # ret_point[2] = struct.unpack("!I", struct.pack("!f", ret_point[2]))[0]
         logger.debug(f"Packed: {index} | {ret_point}")
         memory.main.set_actor_coords(actor_index=index, target_coords=ret_point)
         memory.main.wait_frames(2)
-        logger.debug(f"Recall complete. {memory.main.get_actor_coords(actor_index=index)}")
+        logger.debug(
+            f"Recall complete. {memory.main.get_actor_coords(actor_index=index)}"
+        )
     msg_queue.add_msg("return")
