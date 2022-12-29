@@ -1,12 +1,12 @@
-from memory.main import get_coords
-from avina_speech.tts import speak
-import vars
-from avina_event.special import approach_nearest_actor
-from avina_event.special import set_recall
-from avina_event.special import return_to_recall
-
 import logging
+
+import vars
+from avina_event.special import approach_nearest_actor, return_to_recall, set_recall
+from avina_speech.tts import speak
+from memory.main import get_coords
+
 logger = logging.getLogger(__name__)
+
 
 def handle_message():
     msg_queue = vars.msg_handle()

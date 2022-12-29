@@ -5,7 +5,6 @@ import airship_pathing
 import battle.main
 import egg_hunt
 import memory.main
-
 import pathing
 import vars
 import xbox

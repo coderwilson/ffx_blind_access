@@ -3,7 +3,6 @@ import math
 
 import battle.main
 import memory.main
-
 import pathing
 import save_sphere
 import vars

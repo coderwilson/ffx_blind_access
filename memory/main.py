@@ -1984,7 +1984,8 @@ def get_actor_coords(actor_index, raw=False):
     except Exception:
         pass
 
-def set_actor_coords(actor_index:int, target_coords):
+
+def set_actor_coords(actor_index: int, target_coords):
     global process
     global base_value
     logger.warning(target_coords)
@@ -1993,7 +1994,7 @@ def set_actor_coords(actor_index:int, target_coords):
         ptr = process.read(base_pointer)
         key_x = ptr + (0x880 * actor_index) + 0x0C
         key_y = ptr + (0x880 * actor_index) + 0x14
-        key_z = ptr + (0x880 * actor_index) + 0x16c
+        key_z = ptr + (0x880 * actor_index) + 0x16C
         process.write(key_x, target_coords[0])
         process.write(key_y, target_coords[1])
         process.write(key_z, target_coords[2])

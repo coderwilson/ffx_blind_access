@@ -108,11 +108,13 @@ class FFXMemory(ReadWriteMemory):
 
         raise ReadWriteMemoryError(f'Process "{self.process.name}" not found!')
 
+
 try:
     rwm = FFXMemory()
     process = rwm.get_process_by_name("FFX.exe")
 except:
     pass
+
 
 def cutscene_id():
     global base_value

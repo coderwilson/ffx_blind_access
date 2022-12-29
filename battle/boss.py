@@ -4,7 +4,6 @@ import battle.main
 import battle.utils
 import logs
 import memory.main
-
 import vars
 import xbox
 from players import (

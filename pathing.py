@@ -82,13 +82,13 @@ def _approach_actor(actor_index: int = 999, talk: bool = True):
     start = datetime.datetime.now()
 
     while (
-        memory.main.user_control() and
-        not memory.main.menu_open() and
-        not memory.main.name_aeon_ready()
+        memory.main.user_control()
+        and not memory.main.menu_open()
+        and not memory.main.name_aeon_ready()
     ):
         timestamp = datetime.datetime.now()
         total = timestamp - start
-        if total.total_seconds() > 2: # Two-second time-out
+        if total.total_seconds() > 2:  # Two-second time-out
             FFXC.set_neutral()
             return False
         set_movement(target_coords)
