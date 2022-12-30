@@ -1,39 +1,32 @@
 # Libraries and Core Files
 import logging
-import random
 import sys
-from avina_speech.tts import speak
-from avina_event import trigger
-from avina_event.map_change import map_description
-from avina_event import special
 import time
-from area import dream_zan
-from keyboard import controls
-from keyboard import battle_controls
-from avina_event.message import handle_message
-import reset
 
 # This needs to be before the other imports in case they decide to log things when imported
 import log_init
+import reset
+from area import dream_zan
+from avina_event import special, trigger
+from avina_event.map_change import map_description
+from avina_event.message import handle_message
+from avina_speech.tts import speak
+from keyboard import battle_controls, controls
 
 # This sets up console and file logging (should only be called once)
 log_init.initialize_logging()
 
 logger = logging.getLogger(__name__)
 
-import area.besaid
-import battle.main
-import memory.main
-import blitz
 import config
 import load_game
-import pathing
+import memory.main
 import save_sphere
 import vars
+
 msg_queue = vars.msg_handle()
 import xbox
 from gamestate import game
-from image_to_text import maybe_show_image
 
 FFXC = xbox.controller_handle()
 
@@ -69,6 +62,7 @@ def memory_setup():
         logger.info("Game start screen")
         return True
 
+
 def load_game_state():
     # loading from a save file
     load_game.load_into_game(gamestate=game.state, step_counter=game.step)
@@ -83,10 +77,11 @@ def maybe_create_save(save_num: int):
         )
 
 
-def launch_game(filename:str='none'):
+def launch_game(filename: str = "none"):
     logger.debug("Attempting to launch game")
     import os
-    if filename == 'none':
+
+    if filename == "none":
         filename = "C:\\'Program Files (x86)'\\Steam\\steamapps\\common\\'FINAL FANTASY FFX&FFX-2 HD Remaster'\\FFX.exe"
     logger.debug(f"File path: {filename} -config filename")
     os.system(filename)
@@ -102,10 +97,10 @@ def perform_avina():
         try:
             # Start of the game, start of Dream Zanarkand section
             if game.state == "intro":
-                #speak("Hello. I am a virtual intelligence named Aveena.")
-                #speak("I will be your guide to playing Final Fantasy 10.")
+                # speak("Hello. I am a virtual intelligence named Aveena.")
+                # speak("I will be your guide to playing Final Fantasy 10.")
                 game.state = "config"
-            
+
             if game.state == "config":
                 # Set up gamestate and rng-related variables
                 configuration_setup()
@@ -116,42 +111,42 @@ def perform_avina():
                 # Initialize memory access
                 while not memory_setup():
                     speak("Something is wrong, the game is not running.")
-                    #speak("I'll try to fix this. One moment.")
-                    #launch_game()
+                    # speak("I'll try to fix this. One moment.")
+                    # launch_game()
                     # Launch Game not yet working
                     time.sleep(5)
                 speak("I am now connected to the game.")
                 game.state = "check_tutorial"
-            
+
             if game.state == "check_tutorial":
-                #speak("Would you like a quick tutorial on how I work?")
-                #speak("Press Y for tutorial, or any key to proceed, then press enter.")
-                if input("Awaiting decision ").lower() == 'y':
+                # speak("Would you like a quick tutorial on how I work?")
+                # speak("Press Y for tutorial, or any key to proceed, then press enter.")
+                if input("Awaiting decision ").lower() == "y":
                     from avina_speech import guide
+
                     guide.tutorial()
                 game.state = "new_game"
-            
+
             if game.state == "new_game":
-                #speak("Would you like to start a new game?")
-                #speak("Press N for new or L for load, then press enter.")
+                # speak("Would you like to start a new game?")
+                # speak("Press N for new or L for load, then press enter.")
                 response = input("Awaiting decision ").lower()
-                if response == 'n':
+                if response == "n":
                     speak("Starting new game.")
-                    dream_zan.new_game(gamestate='none')
+                    dream_zan.new_game(gamestate="none")
                     dream_zan.new_game_2()
                     speak("New game starting now.")
                     game.state = "story"
-                elif response == 'l':
+                elif response == "l":
                     speak("Loading the most recent save.")
-                    dream_zan.new_game(gamestate='load')
+                    dream_zan.new_game(gamestate="load")
                     load_game.load_into_game(gamestate="last", step_counter="none")
                     game.state = "overworld"
                 controls.start()
-            
+
             if game.state == "story":
                 pass
-                #speak("story")
-                
+                # speak("story")
 
             if game.state == "battle":
                 speak("Battle is now active.")
@@ -166,10 +161,10 @@ def perform_avina():
                 next_event = trigger.new_event()
                 while next_event == "overworld":
                     next_event = trigger.new_event()
-            
+
             if game.state == "map":
                 map_description()
-            
+
             if "special" in game.state:
                 if game.state == "special_name_aeon":
                     logger.debug("Naming aeon.")
@@ -180,10 +175,10 @@ def perform_avina():
                 elif game.state == "special_message":
                     # from avina_event.message
                     handle_message()
-            
+
             if game.state == "wait":
                 pass
-            
+
             # Determine the next state of the game.
             game.state = trigger.new_event()
 
@@ -236,7 +231,7 @@ if __name__ == "__main__":
     vars.init_vars()
 
     # Next, check if we are loading to a save file
-    #if game.state != "none":
+    # if game.state != "none":
     #    load_game_state()
 
     # Run the TAS itself

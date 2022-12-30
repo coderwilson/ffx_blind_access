@@ -4,10 +4,8 @@ import battle.main
 import logs
 import memory.get
 import memory.main
-
 import pathing
 import save_sphere
-
 import vars
 import xbox
 from paths import (

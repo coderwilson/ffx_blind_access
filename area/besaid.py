@@ -1,12 +1,9 @@
 import logging
 
-
 import battle.main
 import logs
 import memory.main
-
 import pathing
-
 import vars
 import xbox
 from paths import Besaid1, Besaid2, BesaidTrials

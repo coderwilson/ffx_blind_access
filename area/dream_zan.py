@@ -1,14 +1,12 @@
 import logging
 
-
 import battle.main
-import logs
 import memory.main
 import pathing
 import save_sphere
-from avina_speech import tts
 import vars
 import xbox
+from avina_speech import tts
 from paths import AllStartsHere, TidusHomeMovement
 from players import Auron, CurrentPlayer
 

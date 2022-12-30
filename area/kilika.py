@@ -1,10 +1,7 @@
 import logging
 
-
 import battle.main
-import logs
 import memory.main
-
 import pathing
 import save_sphere
 import vars
