@@ -1,6 +1,7 @@
 import memory.main
 import pathing
 import xbox
+from jsonmerge import merge
 
 FFXC = xbox.controller_handle()
 import logging
@@ -57,19 +58,26 @@ def name_aeon():
     memory.main.wait_frames(15)
 
 
-def set_recall():
+def set_recall(first_pos:str="false"):
     f = open("avina_event\\recall.json")
     lib = json.load(f)
     map_val = str(memory.main.get_map())
     cur_pos = memory.main.get_actor_coords(actor_index=0, raw=True)
-    logger.debug(f"Setting recall point: {map_val}")
+    logger.debug(f"Setting recall point: {map_val}, first position: {first_pos}")
     if map_val in lib.keys():
-        lib[map_val]["x"] = cur_pos[0]
-        lib[map_val]["y"] = cur_pos[1]
-        lib[map_val]["z"] = cur_pos[2]
+        if first_pos in lib[map_val].keys():
+            print("=====A=====")
+            lib[map_val][first_pos]["x"] = cur_pos[0]
+            lib[map_val][first_pos]["y"] = cur_pos[1]
+            lib[map_val][first_pos]["z"] = cur_pos[2]
+        else:
+            print("=====B=====")
+            new_val = {map_val: { first_pos: {"x": cur_pos[0], "y": cur_pos[1], "z": cur_pos[2]}}}
+            lib = merge(lib, new_val)
     else:
-        new_val = {map_val: {"x": cur_pos[0], "y": cur_pos[1], "z": cur_pos[2]}}
-        lib.update(new_val)
+        print("=====C=====")
+        new_val = {map_val: { first_pos: {"x": cur_pos[0], "y": cur_pos[1], "z": cur_pos[2]}}}
+        lib = merge(lib, new_val)
 
     filepath = os.path.join("avina_event", "recall.json")
     with open(filepath, "w") as fp:
@@ -77,18 +85,18 @@ def set_recall():
     msg_queue.add_msg("set")
 
 
-def return_to_recall():
+def return_to_recall(first_pos:str="false"):
     f = open("avina_event\\recall.json")
     lib = json.load(f)
     map_val = str(memory.main.get_map())
     index = memory.main.actor_index(actor_num=1)
     if map_val not in lib.keys():
         logger.warning("Attempting to recall, but no recall point set. {map_val}")
-    elif int(lib[map_val]["x"]) == 0 and int(lib[map_val]["y"]) == 0:
+    elif int(lib[map_val][first_pos]["x"]) == 0 and int(lib[map_val][first_pos]["y"]) == 0:
         logger.warning("Invalid recall point. Please re-set recall spot.")
     else:
         logger.debug(f"Recalling. {memory.main.get_map()}")
-        ret_point = [lib[map_val]["x"], lib[map_val]["y"], lib[map_val]["z"]]
+        ret_point = [lib[map_val][first_pos]["x"], lib[map_val][first_pos]["y"], lib[map_val][first_pos]["z"]]
         logger.debug(f"Index: {index} | {ret_point}")
         # ret_point[0] = struct.unpack("!I", struct.pack("!f", ret_point[0]))[0]
         # ret_point[1] = struct.unpack("!I", struct.pack("!f", ret_point[1]))[0]

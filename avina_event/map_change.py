@@ -5,7 +5,6 @@ from memory.main import get_map
 
 
 def map_description():
-
     if get_map() == 132:
         speak("Opening scene. A sword, staff, and ball are stacked on a pile of dirt.")
         speak("It's late in the day, around dusk.")

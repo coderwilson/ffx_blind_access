@@ -97,8 +97,8 @@ def perform_avina():
         try:
             # Start of the game, start of Dream Zanarkand section
             if game.state == "intro":
-                # speak("Hello. I am a virtual intelligence named Aveena.")
-                # speak("I will be your guide to playing Final Fantasy 10.")
+                speak("Hello. I am a virtual intelligence named Aveena.")
+                speak("I will be your guide to playing Final Fantasy 10.")
                 game.state = "config"
 
             if game.state == "config":

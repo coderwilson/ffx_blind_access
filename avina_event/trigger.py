@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from avina_event import special
 
 import memory.main
 import vars
@@ -51,5 +52,9 @@ def new_event() -> str:
         return "special_message"
 
     if memory.main.user_control():
+        if last["map_last_control"] != memory.main.get_map():
+            special.set_recall(first_pos="true")
+            last["map_last_control"] = memory.main.get_map()
+            write_last(last)
         return "overworld"
     return "wait"

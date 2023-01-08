@@ -1,4 +1,4 @@
-from avina_speech.tts import speak
+#from avina_speech.tts import speak
 
 tutorial: >
     Let's go over the buttons real quick.
