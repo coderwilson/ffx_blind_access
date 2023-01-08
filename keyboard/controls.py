@@ -126,6 +126,11 @@ def update_xbox(key, state: str = "press"):
                 if state == "press":
                     if user_control():
                         msg_queue.add_msg("return_recall")
+            if key.char == "w":
+                logger.debug(f"trigger recall command special{user_control()}")
+                if state == "press":
+                    if user_control():
+                        msg_queue.add_msg("return_recall_first")
         except Exception as e:  # non-alpha-numeric value.
             logger.warning(f"Error: {e}")
     pass_message = "none"

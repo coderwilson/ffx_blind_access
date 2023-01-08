@@ -22,5 +22,7 @@ def handle_message():
         set_recall()
     elif value == "return_recall":
         return_to_recall()
+    elif value == "return_recall_first":
+        return_to_recall(first_pos="true")
     else:
         speak(value)
