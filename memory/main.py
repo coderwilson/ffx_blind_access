@@ -200,6 +200,12 @@ def set_rng_seed(value):
     return process.write_bytes(key, value, 1)
 
 
+def reload_map():
+    global base_value
+    key = base_value + 0x00F3080C
+    return process.write_bytes(key, 1, 1)
+
+
 def game_over():
     global base_value
     key = base_value + 0x00D2C9F1
