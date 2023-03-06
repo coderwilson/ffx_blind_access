@@ -1,7 +1,25 @@
 from pynput import keyboard
 from pynput.keyboard import Key
+from players import (
+    Auron,
+    Bahamut,
+    CurrentPlayer,
+    Kimahri,
+    Lulu,
+    Rikku,
+    Tidus,
+    Valefor,
+    Wakka,
+    Yuna,
+)
+from memory.main import (
+    get_current_turn,
+    turn_ready,
+    get_overdrive_battle
+)
 
 import xbox
+from avina_speech.tts import speak
 
 
 def start():
@@ -65,6 +83,23 @@ def update_xbox(key, state: str = "press"):
                 FFXC.set_value("btn_a", 1)
             else:
                 FFXC.set_value("btn_a", 0)
+        if key in ["o", "O"]:
+            if state == "press":
+                actor = get_current_turn()
+                if actor < 7:
+                    if get_overdrive_battle(actor) == 100:
+                        if actor == 0:
+                            Tidus.overdrive()
+                        elif actor == 2:
+                            Auron.overdrive()
+                        elif actor == 4:
+                            Wakka.overdrive()
+                        elif actor == 5:
+                            speak("Lulu's overdrive not yet programmed.")
+                        else:
+                            speak("Current character's overdrive can be done by hand.")
+                elif get_overdrive_battle(actor) == 20:
+                    pass
 
 
 def on_press(key):

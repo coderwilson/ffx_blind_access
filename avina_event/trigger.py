@@ -34,11 +34,27 @@ def new_event() -> str:
 
     # Battle check
     if memory.main.battle_active() and last["battle"] == False:
-        print(last["battle"])
-        last["battle"] = memory.main.battle_active() != 0
+        last["battle"] = memory.main.battle_active()
         write_last(last)
         logger.debug("Battle is now active")
         return "battle"
+    elif not memory.main.battle_active() and last["battle"] == True:
+        last["battle"] = memory.main.battle_active()
+        write_last(last)
+        logger.debug("Battle is no longer active")
+        return "wait"
+        
+    # Battle Summary
+    if memory.main.battle_wrap_up_active() and last["summary"] == False:
+        last["summary"] = memory.main.battle_wrap_up_active()
+        write_last(last)
+        logger.debug("Battle summary screen is now active")
+        return "summary"
+    elif not memory.main.battle_wrap_up_active() and last["summary"] == True:
+        last["summary"] = memory.main.battle_wrap_up_active()
+        write_last(last)
+        logger.debug("Battle summary screen is no longer active")
+        return "wait"
 
     # Map change
     if memory.main.get_map() != last["map"]:

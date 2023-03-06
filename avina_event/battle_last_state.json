@@ -1,8 +1,8 @@
 {
-    "story_progress": 15,
+    "story_progress": 16,
     "diag_progress": 0,
     "map": 389,
-    "battle": true,
+    "battle": false,
     "summary": false,
     "menu": false,
     "control": false

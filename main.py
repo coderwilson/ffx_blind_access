@@ -11,6 +11,8 @@ from avina_event import special, trigger
 from avina_event.map_change import map_description
 from avina_event.message import handle_message
 from avina_speech.tts import speak
+from avina_event.battle import perform_battle
+from avina_event.story import story_trigger
 from keyboard import battle_controls, controls
 
 # This sets up console and file logging (should only be called once)
@@ -97,8 +99,8 @@ def perform_avina():
         try:
             # Start of the game, start of Dream Zanarkand section
             if game.state == "intro":
-                speak("Hello. I am a virtual intelligence named Aveena.")
-                speak("I will be your guide to playing Final Fantasy 10.")
+                #speak("Hello. I am a virtual intelligence named Aveena.")
+                #speak("I will be your guide to playing Final Fantasy 10.")
                 game.state = "config"
 
             if game.state == "config":
@@ -145,15 +147,14 @@ def perform_avina():
                 controls.start()
 
             if game.state == "story":
-                pass
-                # speak("story")
+                story_trigger()
+                #speak("story")
 
             if game.state == "battle":
                 speak("Battle is now active.")
                 controls.stop()
                 battle_controls.start()
-                while not avina_event.battle.battle_complete():
-                    pass
+                perform_battle()
                 battle_controls.stop()
                 controls.start()
 
