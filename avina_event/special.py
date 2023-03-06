@@ -81,7 +81,7 @@ def set_recall():
 def return_to_recall(first_pos:str="false"):
     if first_pos == "true":
         memory.main.reload_map()
-        msg_queue.add_msg("reloading map,")
+        msg_queue.add_msg("reloading map")
     else:
         f = open("avina_event\\recall.json")
         lib = json.load(f)
