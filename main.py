@@ -99,8 +99,8 @@ def perform_avina():
         try:
             # Start of the game, start of Dream Zanarkand section
             if game.state == "intro":
-                #speak("Hello. I am a virtual intelligence named Aveena.")
-                #speak("I will be your guide to playing Final Fantasy 10.")
+                speak("Hello. I am a virtual intelligence named Aveena.")
+                speak("I will be your guide to playing Final Fantasy 10.")
                 game.state = "config"
 
             if game.state == "config":
@@ -121,8 +121,8 @@ def perform_avina():
                 game.state = "check_tutorial"
 
             if game.state == "check_tutorial":
-                # speak("Would you like a quick tutorial on how I work?")
-                # speak("Press Y for tutorial, or any key to proceed, then press enter.")
+                speak("Would you like a quick tutorial on how I work?")
+                speak("Press Y for tutorial, or any key to proceed, then press enter.")
                 if input("Awaiting decision ").lower() == "y":
                     from avina_speech import guide
 
@@ -130,8 +130,8 @@ def perform_avina():
                 game.state = "new_game"
 
             if game.state == "new_game":
-                # speak("Would you like to start a new game?")
-                # speak("Press N for new or L for load, then press enter.")
+                speak("Would you like to start a new game?")
+                speak("Press N for new or L for load, then press enter.")
                 response = input("Awaiting decision ").lower()
                 if response == "n":
                     speak("Starting new game.")
