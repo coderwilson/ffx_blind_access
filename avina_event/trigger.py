@@ -42,7 +42,6 @@ def new_event() -> str:
         last["battle"] = memory.main.battle_active()
         write_last(last)
         logger.debug("Battle is no longer active")
-        return "wait"
         
     # Battle Summary
     if memory.main.battle_wrap_up_active() and last["summary"] == False:
